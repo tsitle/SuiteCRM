@@ -291,7 +291,11 @@ class ElasticSearchIndexer extends AbstractIndexer
         $this->logger->debug("Removing {$bean->module_name}($bean->name)");
 
         $args = $this->makeParamsHeaderFromBean($bean);
-        $this->client->delete($args);
+        try {
+            $this->client->delete($args);
+        } catch (\Exception $err) {
+            // do nothing
+        }
     }
 
     /**
